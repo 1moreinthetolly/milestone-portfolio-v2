@@ -1,16 +1,17 @@
-import Contact from '../models/contact.js'
+import { Request, Response } from 'express';
+import Contact from '../models/contact'
 import mongoose from 'mongoose'
 
 
 //get all contacts
-export const getContacts = async (req, res) => {
+export const getContacts = async (req: Request, res: Response) => {
     const contacts = await Contact.find({}).sort ({createdAt:-1})
     res.status(201).json(contacts)
 }
 
 
 //get a single contact
-export const getContact = async (req, res) => {
+export const getContact = async (req: Request, res: Response) => {
     const {id} = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -28,7 +29,7 @@ export const getContact = async (req, res) => {
 
 
 //create new contact
-export const createContact = async (req, res) => {
+export const createContact = async (req: Request, res: Response) => {
     const { name, portrait, socials, resume, email } = req.body;
         try {
 
@@ -36,13 +37,13 @@ export const createContact = async (req, res) => {
 
     res.status(201).json(newContact);
         } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: 'cannot create new contact' });
         }
     };
 
     
 //delete a contact
-export const deleteContact = async (req, res) => {
+export const deleteContact = async (req: Request, res: Response) => {
     const { id } = req.params 
 
     if(!mongoose.Types.ObjectId.isValid(id)){
@@ -60,7 +61,7 @@ export const deleteContact = async (req, res) => {
 
 
 //update a contact
-export const updateContact = async (req, res) => {
+export const updateContact = async (req: Request, res: Response) => {
     const { id } = req.params
     
     if(!mongoose.Types.ObjectId.isValid(id)){
